@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Models;
-
+package Controlers;
+import  connection.DBConnect;
 /**
  *
  * @author hienhv
  */
-public class Student {
-    
+public class Sinhvien extends DBConnect {
+    public ArrayList KetQuaSinhVien(String sql){
+        
+    }
 }

@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import connection.getConnection;
+import connection.DBConnect;
 /**
  *
  * @author hienhv
@@ -121,26 +121,42 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(username.getText()==""){
+            JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên đăng nhập","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
+            return;
+        }if(String.valueOf(password.getPassword())==""){
+            JOptionPane.showMessageDialog(null, "Bạn chưa nhập password","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String user=username.getText();
         String pass=String.valueOf(password.getPassword());
 //        String url="jdbc:sqlserver://localhost;databaseName=btlJava;user=sa;password=sa";
         
-        Connection conn;
+        
+        DBConnect conn=new DBConnect();
         try {
-            conn = getConnection.GetConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs=stmt.executeQuery("select roles2 from ACCOUNT where passwords='"+pass+"' and usernames='"+user+"'");
+            conn.
+            ResultSet rs=stmt.executeQuery("select Roles_number from TAIKHOAN where password='"+pass+"' and username='"+user+"'");
             while(rs.next()){
-                if(rs.getString("roles2").equals("1")){
+                
+                if(rs.getString("Roles_number").equals("1")){
                     new StudentInterface().setVisible(true);
                     this.dispose();
-                }if(rs.getString("roles2").equals("2")){
+                }if(rs.getString("Roles_number").equals("2")){
+                    new HomeGiangVien().setVisible(true);
+                    this.dispose();
+                }
+            }
+            if((pass.equals("admin"))& (user.equals("admin"))){
                     new HomeAdmin().setVisible(true);
                     this.dispose();
-                }if(rs.getString("roles2").equals("3")){
-                    System.out.println("Home admin");
-                }
-            }            
+//                    this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "Bạn đã nhập sai thông tin đăng nhập","Sai thông tin đăng nhập",JOptionPane.ERROR_MESSAGE);
+                username.setText("");
+                password.setText("");
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
