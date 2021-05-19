@@ -121,3 +121,6 @@ go
 insert into SINHVIEN values('2018604963','LOP001',N'Hà Văn Hiển','10/12/2000','Nam',N'Hà Nam','havanhien')
 
 select * from TAIKHOAN
+
+
+select Roles_number from TAIKHOAN where password='havanhien' and username='2018604963'

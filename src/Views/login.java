@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package Views;
-import Trash.HomeStudent;
+import Controlers.logincontroler;
+import Models.TaiKhoan;
+import Views.HomeStudent;
+import com.sun.glass.events.KeyEvent;
+import com.sun.webkit.dom.EventImpl;
 import java.sql.Array;
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -15,13 +19,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import connection.DBConnect;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
 /**
  *
  * @author hienhv
  */
 public class login extends javax.swing.JFrame {
-    static String Username;
-    static String pass;
+    public static String Username;
+    ArrayList<TaiKhoan> listTK=new ArrayList<TaiKhoan>();
+    logincontroler lg=new logincontroler();
 //    String url="jdbc:sqlserver://localhost;databaseName=btlJava;user=sa;password=sa";
     
     
@@ -30,8 +37,9 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
+       
     }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,6 +55,8 @@ public class login extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,11 +66,20 @@ public class login extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Login");
 
+        username.setText("admin");
+
+        password.setText("admin");
+
         jButton1.setBackground(new java.awt.Color(0, 204, 204));
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton1KeyPressed(evt);
             }
         });
 
@@ -72,19 +91,27 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_username_48px.png"))); // NOI18N
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_password_40px.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(username)
-                    .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
+                    .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(89, 89, 89)
+                .addGap(70, 70, 70)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -94,15 +121,23 @@ public class login extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93)
-                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97)
-                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(132, 132, 132)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,7 +148,9 @@ public class login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,54 +158,105 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(username.getText()==""){
+        
+        
+        if(username.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên đăng nhập","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
             return;
-        }if(String.valueOf(password.getPassword())==""){
+        }if(String.valueOf(password.getPassword()).equals("")){
             JOptionPane.showMessageDialog(null, "Bạn chưa nhập password","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
             return;
         }
         String user=username.getText();
         String pass=String.valueOf(password.getPassword());
-//        String url="jdbc:sqlserver://localhost;databaseName=btlJava;user=sa;password=sa";
         
-        
-        DBConnect conn=new DBConnect();
         try {
-            conn.
-            ResultSet rs=stmt.executeQuery("select Roles_number from TAIKHOAN where password='"+pass+"' and username='"+user+"'");
-            while(rs.next()){
-                
-                if(rs.getString("Roles_number").equals("1")){
-                    new StudentInterface().setVisible(true);
-                    this.dispose();
-                }if(rs.getString("Roles_number").equals("2")){
-                    new HomeGiangVien().setVisible(true);
-                    this.dispose();
-                }
+            listTK=lg.showTaiKhoan();
+            TaiKhoan tk=new TaiKhoan(user,pass);
+            if(user.equals("admin")&pass.equals("admin")){
+                new HomeAdmin().setVisible(true);
+                this.dispose();
+                return;
             }
-            if((pass.equals("admin"))& (user.equals("admin"))){
-                    new HomeAdmin().setVisible(true);
-                    this.dispose();
-//                    this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "Bạn đã nhập sai thông tin đăng nhập","Sai thông tin đăng nhập",JOptionPane.ERROR_MESSAGE);
-                username.setText("");
-                password.setText("");
+            if(!listTK.contains(tk)){
+                JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra tên hoặc mật khẩu","ERROR",JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            
+            TaiKhoan quyen=new TaiKhoan();
+            quyen=listTK.get(listTK.indexOf(tk));
+            Username=user;
+            if(quyen.getLoaiTaiKhoan()==1){
+                new HomeStudent().setVisible(true);
+                this.dispose();
+            }if(quyen.getLoaiTaiKhoan()==2){
+                new HomeGiangVien().setVisible(true);
+                this.dispose();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
+        
+        
             
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        // TODO add your handling code here:
+//        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+//        if(username.getText()==""){
+//            JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên đăng nhập","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }if(String.valueOf(password.getPassword())==""){
+//            JOptionPane.showMessageDialog(null, "Bạn chưa nhập password","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+//        String user=username.getText();
+//        String pass=String.valueOf(password.getPassword());
+////        String url="jdbc:sqlserver://localhost;databaseName=btlJava;user=sa;password=sa";
+//        
+//        
+//        
+//        try {
+//            DBConnect conn=new DBConnect();
+//            Statement stmt=conn.getStatement();
+//            ResultSet rs=stmt.executeQuery("select Roles_number from TAIKHOAN where password='"+pass+"' and username='"+user+"'");
+//            while(rs.next()){
+//                Username=user;
+//                if(rs.getString("Roles_number").equals("1")){
+//                    new HomeStudent().setVisible(true);
+//                    this.dispose();
+//                }if(rs.getString("Roles_number").equals("2")){
+//                    new HomeGiangVien().setVisible(true);
+//                    this.dispose();
+//                }
+//            }
+//            if((pass.equals("admin"))& (user.equals("admin"))){
+//                    new HomeAdmin().setVisible(true);
+//                    this.dispose();
+////                    this.dispose();
+//            }if(!rs.next()){
+//                
+//                JOptionPane.showMessageDialog(null, "Bạn đã nhập sai thông tin đăng nhập","Sai thông tin đăng nhập",JOptionPane.ERROR_MESSAGE);
+//                username.setText("");
+//                password.setText("");
+//            
+//            }
+//            
+//        } catch (SQLException ex) {
+//            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        
+//        }
+
+        
+    }//GEN-LAST:event_jButton1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -179,6 +267,7 @@ public class login extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -210,6 +299,8 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField username;

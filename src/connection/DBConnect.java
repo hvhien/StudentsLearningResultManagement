@@ -41,24 +41,39 @@ public class DBConnect {
         try {
             conn=DriverManager.getConnection(url);
         } catch (SQLException ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("sai trong connection cóntructor");
         }
     }
+//    public Connection getConnection(){
+//        try {
+//            conn=DriverManager.getConnection(url);
+//        } catch (SQLException ex) {
+////            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+//            System.out.println("sai trong connection cóntructor");
+//        }
+//        return conn;
+//    }
     public Statement getStatement() throws SQLException{
-        if(this.sta==null || this.sta.isClosed()){
-            this.sta=this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            
-        }
+        this.sta=this.conn.createStatement();
         return this.sta;
     }
     public ResultSet executeQuery(String sql){
         try{
             this.res=getStatement().executeQuery(sql);
             
-        }catch(Exception e){
-            e.getMessage();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "sai thoong tin");
         }
         return this.res;
+    }
+    public ResultSet getResultSet(String sql) throws SQLException{
+        ResultSet kq=null;
+        Statement sta=conn.createStatement();
+        kq=sta.executeQuery(sql);
+        
+        
+        return kq;
     }
     
     

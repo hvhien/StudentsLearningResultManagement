@@ -5,6 +5,8 @@
  */
 package Models;
 
+import java.util.Objects;
+
 /**
  *
  * @author hienhv
@@ -12,12 +14,17 @@ package Models;
 public class TaiKhoan {
     String TenDangNhap;
     String MatKhau;
-    String LoaiTaiKhoan;
+    int LoaiTaiKhoan;
 
     public TaiKhoan() {
     }
 
-    public TaiKhoan(String TenDangNhap, String MatKhau, String LoaiTaiKhoan) {
+    public TaiKhoan(String TenDangNhap, String MatKhau) {
+        this.TenDangNhap = TenDangNhap;
+        this.MatKhau = MatKhau;
+    }
+
+    public TaiKhoan(String TenDangNhap, String MatKhau, int LoaiTaiKhoan) {
         this.TenDangNhap = TenDangNhap;
         this.MatKhau = MatKhau;
         this.LoaiTaiKhoan = LoaiTaiKhoan;
@@ -25,6 +32,35 @@ public class TaiKhoan {
 
     public String getTenDangNhap() {
         return TenDangNhap;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.TenDangNhap);
+        hash = 53 * hash + Objects.hashCode(this.MatKhau);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TaiKhoan other = (TaiKhoan) obj;
+        if (!Objects.equals(this.TenDangNhap, other.TenDangNhap)) {
+            return false;
+        }
+        if (!Objects.equals(this.MatKhau, other.MatKhau)) {
+            return false;
+        }
+        return true;
     }
 
     public void setTenDangNhap(String TenDangNhap) {
@@ -39,12 +75,18 @@ public class TaiKhoan {
         this.MatKhau = MatKhau;
     }
 
-    public String getLoaiTaiKhoan() {
+    public int getLoaiTaiKhoan() {
         return LoaiTaiKhoan;
     }
 
-    public void setLoaiTaiKhoan(String LoaiTaiKhoan) {
+    public void setLoaiTaiKhoan(int LoaiTaiKhoan) {
         this.LoaiTaiKhoan = LoaiTaiKhoan;
     }
+
+    @Override
+    public String toString() {
+       return "TaiKhoan{" + "tenTaiKhoan=" + TenDangNhap + ", matKhau=" + MatKhau + ", quyen=" + LoaiTaiKhoan + '}';
+    }
+    
     
 }

@@ -15,16 +15,26 @@ public class Diem{
     float DiemHS1;
     float DiemHS2;
     float DiemThi;
+    int SoBuoiNghi;
 
+    
     public Diem() {
     }
 
-    public Diem(SinhVien sinhvien, MonHoc monhoc, float DiemHS1, float DiemHS2, float DiemThi) {
+    public Diem(SinhVien sinhvien, MonHoc monhoc, float DiemHS1, float DiemHS2, float DiemThi,int SoBuoiNghi) {
         this.sinhvien = sinhvien;
         this.monhoc = monhoc;
         this.DiemHS1 = DiemHS1;
         this.DiemHS2 = DiemHS2;
         this.DiemThi = DiemThi;
+        this.SoBuoiNghi=SoBuoiNghi;
+    }
+    public int getSoBuoiNghi() {
+        return SoBuoiNghi;
+    }
+
+    public void setSoBuoiNghi(int SoBuoiNghi) {
+        this.SoBuoiNghi = SoBuoiNghi;
     }
 
     public SinhVien getSinhvien() {

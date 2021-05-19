@@ -5,24 +5,39 @@
  */
 package Views;
 
+import Trash.*;
+import Controlers.SinhvienControler;
+import CustomTable.CustomeTableSinhVien;
+import Trash.StudentInterface;
+import Views.login;
 import java.awt.Color;
-import java.awt.Label;
-import java.util.Locale;
-import javax.swing.JLabel;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author hienhv
  */
-public class StudentInterface extends javax.swing.JFrame {
-
+public class HomeStudent extends javax.swing.JFrame {
+    String sql_table_1="select MaMonHoc,(select TenMonHoc from MONHOC"
+                    + " where MaMonHoc=DIEM.MaMonHoc) as 'TenMonHoc',(select SoTinChi from MONHOC where MaMonHoc=DIEM.MaMonHoc) as 'SoTinChi',"
+                    + "(select HocKy from MONHOC where MaMonHoc=DIEM.MaMonHoc) as 'HocKy',DiemHS1,DiemHS2,DiemThi,SoBuoiVang from DIEM where MaSV='"+login.Username+"'";
     /**
-     * Creates new form havahjheintest
+     * Creates new form HomeStudent
      */
-    public StudentInterface() {
+    public HomeStudent() throws SQLException {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
+
+        load_table(sql_table_1, "", "");
+        homepage.setVisible(true);
+        profilepage.setVisible(false);
+        homebnt.setBackground(Color.darkGray);
+
+        
     }
 
     /**
@@ -39,14 +54,10 @@ public class StudentInterface extends javax.swing.JFrame {
         div = new javax.swing.JPanel();
         homebnt = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        baolubnt = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        totnghiepbnt = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         profile = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        profile1 = new javax.swing.JPanel();
+        logout = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         homepage = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -57,24 +68,17 @@ public class StudentInterface extends javax.swing.JFrame {
         classfixed = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        mainTable = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        moretable = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jScrollPane8 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
-        baoluupage = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        totNghieppage = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
         profilepage = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Thông tin sinh viên");
-        setAlwaysOnTop(true);
-        setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -84,6 +88,7 @@ public class StudentInterface extends javax.swing.JFrame {
         div.setBackground(new java.awt.Color(0, 102, 102));
 
         homebnt.setBackground(java.awt.Color.cyan);
+        homebnt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         homebnt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 homebntMouseClicked(evt);
@@ -112,56 +117,8 @@ public class StudentInterface extends javax.swing.JFrame {
             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        baolubnt.setBackground(java.awt.Color.cyan);
-        baolubnt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                baolubntMouseClicked(evt);
-            }
-        });
-
-        jLabel4.setBackground(java.awt.Color.black);
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_save_as_96px_2.png"))); // NOI18N
-        jLabel4.setText("Bảo lưu kết quả");
-
-        javax.swing.GroupLayout baolubntLayout = new javax.swing.GroupLayout(baolubnt);
-        baolubnt.setLayout(baolubntLayout);
-        baolubntLayout.setHorizontalGroup(
-            baolubntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(baolubntLayout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        baolubntLayout.setVerticalGroup(
-            baolubntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        totnghiepbnt.setBackground(java.awt.Color.cyan);
-        totnghiepbnt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                totnghiepbntMouseClicked(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_gmail_96px.png"))); // NOI18N
-        jLabel5.setText("Gửi đơn xét tốt nghiệp");
-
-        javax.swing.GroupLayout totnghiepbntLayout = new javax.swing.GroupLayout(totnghiepbnt);
-        totnghiepbnt.setLayout(totnghiepbntLayout);
-        totnghiepbntLayout.setHorizontalGroup(
-            totnghiepbntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(totnghiepbntLayout.createSequentialGroup()
-                .addComponent(jLabel5)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        totnghiepbntLayout.setVerticalGroup(
-            totnghiepbntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
         profile.setBackground(java.awt.Color.cyan);
+        profile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         profile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 profileMouseClicked(evt);
@@ -185,18 +142,23 @@ public class StudentInterface extends javax.swing.JFrame {
             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 204, 51));
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_menu_96px.png"))); // NOI18N
+        jLabel9.setText("Group 5 School");
+        jLabel9.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel9MouseClicked(evt);
             }
         });
 
-        profile1.setBackground(java.awt.Color.cyan);
-        profile1.addMouseListener(new java.awt.event.MouseAdapter() {
+        logout.setBackground(java.awt.Color.cyan);
+        logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                profile1MouseClicked(evt);
+                logoutMouseClicked(evt);
             }
         });
 
@@ -204,16 +166,16 @@ public class StudentInterface extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_sign_out_96px.png"))); // NOI18N
         jLabel10.setText("Đăng xuất");
 
-        javax.swing.GroupLayout profile1Layout = new javax.swing.GroupLayout(profile1);
-        profile1.setLayout(profile1Layout);
-        profile1Layout.setHorizontalGroup(
-            profile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(profile1Layout.createSequentialGroup()
+        javax.swing.GroupLayout logoutLayout = new javax.swing.GroupLayout(logout);
+        logout.setLayout(logoutLayout);
+        logoutLayout.setHorizontalGroup(
+            logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logoutLayout.createSequentialGroup()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        profile1Layout.setVerticalGroup(
-            profile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        logoutLayout.setVerticalGroup(
+            logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -222,11 +184,9 @@ public class StudentInterface extends javax.swing.JFrame {
         divLayout.setHorizontalGroup(
             divLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(homebnt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(baolubnt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(totnghiepbnt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(profile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(profile1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         divLayout.setVerticalGroup(
             divLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,15 +194,11 @@ public class StudentInterface extends javax.swing.JFrame {
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(homebnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(baolubnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(totnghiepbnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(profile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(466, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -281,8 +237,10 @@ public class StudentInterface extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(240, 240, 240));
         jLabel13.setText("Lớp cố định");
 
-        jTable2.setForeground(new java.awt.Color(255, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        mainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -290,21 +248,18 @@ public class StudentInterface extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(mainTable);
 
-        jTable1.setForeground(new java.awt.Color(255, 255, 255));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        moretable.setForeground(new java.awt.Color(255, 255, 255));
+        moretable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(moretable);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Số tín chỉ tích lũy", "ĐTB chung tích lũy", "Xếp loại" };
@@ -374,50 +329,6 @@ public class StudentInterface extends javax.swing.JFrame {
                 .addContainerGap(381, Short.MAX_VALUE))
         );
 
-        baoluupage.setBackground(java.awt.Color.darkGray);
-        baoluupage.setForeground(new java.awt.Color(0, 153, 153));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Bảo lưu");
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout baoluupageLayout = new javax.swing.GroupLayout(baoluupage);
-        baoluupage.setLayout(baoluupageLayout);
-        baoluupageLayout.setHorizontalGroup(
-            baoluupageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
-        );
-        baoluupageLayout.setVerticalGroup(
-            baoluupageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(baoluupageLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 766, Short.MAX_VALUE))
-        );
-
-        totNghieppage.setBackground(java.awt.Color.darkGray);
-        totNghieppage.setPreferredSize(new java.awt.Dimension(1287, 1114));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Gửi đơn xét tốt nghiệp");
-        jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout totNghieppageLayout = new javax.swing.GroupLayout(totNghieppage);
-        totNghieppage.setLayout(totNghieppageLayout);
-        totNghieppageLayout.setHorizontalGroup(
-            totNghieppageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
-        );
-        totNghieppageLayout.setVerticalGroup(
-            totNghieppageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(totNghieppageLayout.createSequentialGroup()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 768, Short.MAX_VALUE))
-        );
-
         profilepage.setBackground(java.awt.Color.darkGray);
         profilepage.setPreferredSize(new java.awt.Dimension(1287, 1114));
 
@@ -456,14 +367,6 @@ public class StudentInterface extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                     .addGap(0, 302, Short.MAX_VALUE)
                     .addComponent(homepage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 301, Short.MAX_VALUE)
-                    .addComponent(baoluupage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 301, Short.MAX_VALUE)
-                    .addComponent(totNghieppage, javax.swing.GroupLayout.PREFERRED_SIZE, 1174, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,17 +377,7 @@ public class StudentInterface extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addComponent(homepage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addComponent(baoluupage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 292, Short.MAX_VALUE)))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addComponent(totNghieppage, javax.swing.GroupLayout.PREFERRED_SIZE, 878, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
-
-        profilepage.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -498,97 +391,69 @@ public class StudentInterface extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        // TODO add your handling code here:
-        homepage.setVisible(true);
-        baoluupage.setVisible(false);
-        totNghieppage.setVisible(false);
-        profilepage.setVisible(false);
-        homebnt.setBackground(Color.darkGray);
 
-        baolubnt.setBackground(Color.cyan);
-        totnghiepbnt.setBackground(Color.cyan);
-        profile.setBackground(Color.cyan);
-        jLabel3.setBackground(Color.darkGray);
-
-    }//GEN-LAST:event_jLabel3MouseClicked
-
-    private void homebntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homebntMouseClicked
-        // TODO add your handling code here:
-        homepage.setVisible(true);
-        baoluupage.setVisible(false);
-        totNghieppage.setVisible(false);
-        profilepage.setVisible(false);
-        homebnt.setBackground(Color.darkGray);
-
-        baolubnt.setBackground(Color.cyan);
-        totnghiepbnt.setBackground(Color.cyan);
-        profile.setBackground(Color.cyan);
-    }//GEN-LAST:event_homebntMouseClicked
-
-    private void baolubntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_baolubntMouseClicked
-//        // TODO add your handling code here:
-        baoluupage.setVisible(true);
-        homepage.setVisible(false);
-        profilepage.setVisible(false);
-        totNghieppage.setVisible(false);
-
-        baolubnt.setBackground(Color.darkGray);
-
-        profile.setBackground(Color.cyan);
-        totnghiepbnt.setBackground(Color.cyan);
-        homebnt.setBackground(Color.cyan);
-    }//GEN-LAST:event_baolubntMouseClicked
-
-    private void totnghiepbntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totnghiepbntMouseClicked
-        // TODO add your handling code here:
-        homepage.setVisible(false);
-        baoluupage.setVisible(false);
-        totNghieppage.setVisible(true);
-        profilepage.setVisible(false);
-        totnghiepbnt.setBackground(Color.darkGray);
-
-        baolubnt.setBackground(Color.cyan);
-        profile.setBackground(Color.cyan);
-        homebnt.setBackground(Color.cyan);
-    }//GEN-LAST:event_totnghiepbntMouseClicked
-
-    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-        // TODO add your handling code here:
-        homepage.setVisible(false);
-        baoluupage.setVisible(false);
-        totNghieppage.setVisible(false);
-        profilepage.setVisible(true);
-
-        profile.setBackground(Color.darkGray);
-
-        baolubnt.setBackground(Color.cyan);
-        totnghiepbnt.setBackground(Color.cyan);
-        homebnt.setBackground(Color.cyan);
-    }//GEN-LAST:event_profileMouseClicked
-
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
-        
-        
-        
- 
-        
-        
-    }//GEN-LAST:event_jLabel9MouseClicked
-
-    private void profile1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profile1MouseClicked
+    private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
         // TODO add your handling code here:
         int result = JOptionPane.showConfirmDialog(null,"Are you sure to exit?","Confirm",JOptionPane.YES_NO_OPTION );
         if(result==0){
             this.dispose();
             new login().setVisible(true);
-            
-        }
-    }//GEN-LAST:event_profile1MouseClicked
 
+        }
+    }//GEN-LAST:event_logoutMouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        try {
+            // TODO add your handling code here:
+            new HomeStudent().setVisible(true);
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+        // TODO add your handling code here:
+        homepage.setVisible(false);
+
+        profilepage.setVisible(true);
+
+        profile.setBackground(Color.darkGray);
+
+        homebnt.setBackground(Color.cyan);
+    }//GEN-LAST:event_profileMouseClicked
+
+    private void homebntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homebntMouseClicked
+        // TODO add your handling code here:
+        homepage.setVisible(true);
+
+        profilepage.setVisible(false);
+        homebnt.setBackground(Color.darkGray);
+
+        profile.setBackground(Color.cyan);
+    }//GEN-LAST:event_homebntMouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        try {
+            // TODO add your handling code here:
+            load_table(sql_table_1, "", "");
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        homepage.setVisible(true);
+
+        profilepage.setVisible(false);
+        homebnt.setBackground(Color.darkGray);
+
+        profile.setBackground(Color.cyan);
+        jLabel3.setBackground(Color.darkGray);
+    }//GEN-LAST:event_jLabel3MouseClicked
+    private void load_table(String sql_table_1,String sql_table_2,String sql_query3) throws SQLException{
+        ArrayList list=SinhvienControler.KetQuaSinhVien(sql_table_1);
+        mainTable.setModel(new CustomeTableSinhVien(list));
+    }
     /**
      * @param args the command line arguments
      */
@@ -606,13 +471,13 @@ public class StudentInterface extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -620,29 +485,27 @@ public class StudentInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentInterface().setVisible(true);
+                try {
+                    new HomeStudent().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(HomeStudent.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel baolubnt;
-    private javax.swing.JPanel baoluupage;
     private javax.swing.JTextField classfixed;
     private javax.swing.JPanel div;
     private javax.swing.JPanel homebnt;
     private javax.swing.JPanel homepage;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
@@ -653,14 +516,12 @@ public class StudentInterface extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel logout;
+    private javax.swing.JTable mainTable;
     private javax.swing.JTextField masv;
     private javax.swing.JTextField masv1;
+    private javax.swing.JTable moretable;
     private javax.swing.JPanel profile;
-    private javax.swing.JPanel profile1;
     private javax.swing.JPanel profilepage;
-    private javax.swing.JPanel totNghieppage;
-    private javax.swing.JPanel totnghiepbnt;
     // End of variables declaration//GEN-END:variables
 }
