@@ -7,7 +7,9 @@ package Views;
 
 import Trash.*;
 import Controlers.SinhvienControler;
+import CustomTable.CustomTableSinhVienXemDiem2;
 import CustomTable.CustomeTableSinhVien;
+import Models.SinhVien;
 import Trash.StudentInterface;
 import Views.login;
 import java.awt.Color;
@@ -22,9 +24,11 @@ import javax.swing.JOptionPane;
  * @author hienhv
  */
 public class HomeStudent extends javax.swing.JFrame {
-    String sql_table_1="select MaMonHoc,(select TenMonHoc from MONHOC"
-                    + " where MaMonHoc=DIEM.MaMonHoc) as 'TenMonHoc',(select SoTinChi from MONHOC where MaMonHoc=DIEM.MaMonHoc) as 'SoTinChi',"
-                    + "(select HocKy from MONHOC where MaMonHoc=DIEM.MaMonHoc) as 'HocKy',DiemHS1,DiemHS2,DiemThi,SoBuoiVang from DIEM where MaSV='"+login.Username+"'";
+    
+    String sql_table1="select DIEM.MaMonHoc,TenMonHoc,SoTinChi,HocKy,DiemHS1,DiemHS2,DiemThi,SoBuoiVang from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc "
+                + "where  MaSV='"+login.Username+"'";
+    String sql_infor_sinhVien="select * from SINHVIEN where MaSV='"+login.Username+"'";
+    String sql_TBC_theoKy="select DISTINCT   HocKy  from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='"+login.Username+"'";
     /**
      * Creates new form HomeStudent
      */
@@ -32,7 +36,7 @@ public class HomeStudent extends javax.swing.JFrame {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
 
-        load_table(sql_table_1, "", "");
+        load_table(sql_table1, "", "");
         homepage.setVisible(true);
         profilepage.setVisible(false);
         homebnt.setBackground(Color.darkGray);
@@ -77,6 +81,18 @@ public class HomeStudent extends javax.swing.JFrame {
         jList2 = new javax.swing.JList();
         profilepage = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        nametxt = new javax.swing.JLabel();
+        addresstxt = new javax.swing.JLabel();
+        genertxt = new javax.swing.JLabel();
+        classfixedtxt = new javax.swing.JLabel();
+        datetxt = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -250,7 +266,6 @@ public class HomeStudent extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(mainTable);
 
-        moretable.setForeground(new java.awt.Color(255, 255, 255));
         moretable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -323,10 +338,10 @@ public class HomeStudent extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(381, Short.MAX_VALUE))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(479, Short.MAX_VALUE))
         );
 
         profilepage.setBackground(java.awt.Color.darkGray);
@@ -339,17 +354,121 @@ public class HomeStudent extends javax.swing.JFrame {
         jLabel8.setText("Thông tin cá nhân");
         jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setAlignmentX(0.0F);
+        jPanel1.setAlignmentY(0.0F);
+
+        jLabel1.setText("Họ và tên");
+
+        jLabel4.setText("Ngày sinh");
+
+        jLabel5.setText("Giới tính");
+
+        jLabel7.setText("Địa chỉ");
+
+        jLabel15.setText("Lớp cố định");
+
+        nametxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        nametxt.setText("jLabel17");
+
+        addresstxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        addresstxt.setText("jLabel17");
+
+        genertxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        genertxt.setText("jLabel17");
+
+        classfixedtxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        classfixedtxt.setText("jLabel17");
+
+        datetxt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        datetxt.setText("jLabel17");
+
+        jButton1.setText("Cancel");
+        jButton1.setAlignmentY(0.0F);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(173, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nametxt, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(datetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(genertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addresstxt, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(classfixedtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(179, 179, 179))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(241, 241, 241)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nametxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(genertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addresstxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(classfixedtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(116, 116, 116)
+                .addComponent(jButton1)
+                .addContainerGap(492, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout profilepageLayout = new javax.swing.GroupLayout(profilepage);
         profilepage.setLayout(profilepageLayout);
         profilepageLayout.setHorizontalGroup(
             profilepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
+            .addGroup(profilepageLayout.createSequentialGroup()
+                .addGap(316, 316, 316)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         profilepageLayout.setVerticalGroup(
             profilepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profilepageLayout.createSequentialGroup()
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -419,6 +538,11 @@ public class HomeStudent extends javax.swing.JFrame {
         homepage.setVisible(false);
 
         profilepage.setVisible(true);
+        try {
+            load_profile(sql_infor_sinhVien);
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         profile.setBackground(Color.darkGray);
 
@@ -438,7 +562,7 @@ public class HomeStudent extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         try {
             // TODO add your handling code here:
-            load_table(sql_table_1, "", "");
+            load_table(sql_table1, "", "");
         } catch (SQLException ex) {
             Logger.getLogger(StudentInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -450,9 +574,26 @@ public class HomeStudent extends javax.swing.JFrame {
         profile.setBackground(Color.cyan);
         jLabel3.setBackground(Color.darkGray);
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
     private void load_table(String sql_table_1,String sql_table_2,String sql_query3) throws SQLException{
         ArrayList list=SinhvienControler.KetQuaSinhVien(sql_table_1);
+        ArrayList listTable2=SinhvienControler.KetQuaTheoKy(sql_table_1);
+        
         mainTable.setModel(new CustomeTableSinhVien(list));
+        moretable.setModel(new CustomTableSinhVienXemDiem2(listTable2));
+    }
+    
+    public void load_profile(String sql) throws SQLException{
+        SinhVien sv=SinhvienControler.getInforSinhVien(sql);
+        nametxt.setText(sv.getTenSV());
+        addresstxt.setText(sv.getDiaChi());
+        genertxt.setText(sv.getGioiTinh());
+        datetxt.setText(sv.getNgaySinh());
+        classfixedtxt.setText(sv.getLopCoDinh());
     }
     /**
      * @param args the command line arguments
@@ -495,21 +636,32 @@ public class HomeStudent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addresstxt;
     private javax.swing.JTextField classfixed;
+    private javax.swing.JLabel classfixedtxt;
+    private javax.swing.JLabel datetxt;
     private javax.swing.JPanel div;
+    private javax.swing.JLabel genertxt;
     private javax.swing.JPanel homebnt;
     private javax.swing.JPanel homepage;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -521,6 +673,7 @@ public class HomeStudent extends javax.swing.JFrame {
     private javax.swing.JTextField masv;
     private javax.swing.JTextField masv1;
     private javax.swing.JTable moretable;
+    private javax.swing.JLabel nametxt;
     private javax.swing.JPanel profile;
     private javax.swing.JPanel profilepage;
     // End of variables declaration//GEN-END:variables

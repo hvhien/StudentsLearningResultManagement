@@ -16,9 +16,9 @@ import javax.swing.table.AbstractTableModel;
 public class CustomeTableSinhVien extends AbstractTableModel{
     
     // khai baó các cột của bảng
-    private String name_cols[]={"Mã môn học","Tên môn học","Số tín chỉ","Điểm số 1","Điểm số 2","Điểm thi","Số buổi nghỉ"};
+    private String name_cols[]={"Mã môn học","Tên môn học","Số tín chỉ","Học kỳ","Điểm số 1","Điểm số 2","Điểm thi","Số buổi nghỉ"};
     // khai báo kiểu dữ liệu của các cột
-    private Class classes[]={String.class,String.class,Integer.class,float.class,float.class,float.class,Integer.class};
+    private Class classes[]={String.class,String.class,Integer.class,Integer.class,float.class,float.class,float.class,Integer.class};
     // khởi tạo arraylist chứa thông tin kết quả môn học của sinh viên
     ArrayList<Diem> list=new ArrayList<Diem>();
 
@@ -48,10 +48,11 @@ public class CustomeTableSinhVien extends AbstractTableModel{
             case 0: return list.get(rowIndex).getMonhoc().getMaMH();
             case 1: return list.get(rowIndex).getMonhoc().getTenMH();
             case 2: return list.get(rowIndex).getMonhoc().getSoTinChi();
-            case 3: return list.get(rowIndex).getDiemHS1();
-            case 4: return list.get(rowIndex).getDiemHS2();
-            case 5: return list.get(rowIndex).getDiemThi();
-            case 6: return list.get(rowIndex).getSoBuoiNghi();
+            case 3: return list.get(rowIndex).getMonhoc().getHocKy();
+            case 4: return list.get(rowIndex).getDiemHS1();
+            case 5: return list.get(rowIndex).getDiemHS2();
+            case 6: return list.get(rowIndex).getDiemThi();
+            case 7: return list.get(rowIndex).getSoBuoiNghi();
             default: return null;
             
         }

@@ -9,13 +9,14 @@ package Models;
  *
  * @author hienhv
  */
-public class MonHoc {
+public class MonHoc { 
     String MaMH;
     String TenMH;
     int SoTinChi;
     int HocKy;
 //    float 
 
+   
     public MonHoc() {
     }
 

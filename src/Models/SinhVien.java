@@ -17,12 +17,14 @@ public  class  SinhVien {
     String NgaySinh;
     String GioiTinh;
     String DiaChi;
-    public SinhVien(String MaSV, String TenSV, String NgaySinh, String GioiTinh, String DiaChi) {
+    String LopCoDinh;
+    public SinhVien(String MaSV, String TenSV, String NgaySinh, String GioiTinh, String DiaChi,String LopCoDinh) {
         this.MaSV = MaSV;
         this.TenSV = TenSV;
         this.NgaySinh = NgaySinh;
         this.GioiTinh = GioiTinh;
         this.DiaChi = DiaChi;
+        this.LopCoDinh=LopCoDinh;
     }
 
     public SinhVien() {
@@ -66,6 +68,14 @@ public  class  SinhVien {
 
     public void setDiaChi(String DiaChi) {
         this.DiaChi = DiaChi;
+    }
+
+    public String getLopCoDinh() {
+        return LopCoDinh;
+    }
+
+    public void setLopCoDinh(String LopCoDinh) {
+        this.LopCoDinh = LopCoDinh;
     }
 
     @Override

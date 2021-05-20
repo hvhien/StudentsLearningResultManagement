@@ -66,9 +66,9 @@ public class login extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Login");
 
-        username.setText("admin");
+        username.setText("2018604963");
 
-        password.setText("admin");
+        password.setText("havanhien");
 
         jButton1.setBackground(new java.awt.Color(0, 204, 204));
         jButton1.setText("Login");

@@ -16,6 +16,13 @@ public class Diem{
     float DiemHS2;
     float DiemThi;
     int SoBuoiNghi;
+    float TongTBCTheoKy;
+
+    
+    public float getTongTBCTheoKy() {
+        return TongTBCTheoKy=((this.getDiemHS1()+this.getDiemHS2()+this.getDiemThi()*4)/6);
+    }
+
 
     
     public Diem() {
@@ -75,6 +82,13 @@ public class Diem{
 
     public void setDiemThi(float DiemThi) {
         this.DiemThi = DiemThi;
+    }
+    public static void main(String[] args) {
+        Diem a=new Diem();
+        a.setDiemHS1(9);
+        a.setDiemHS2(10);
+        a.setDiemThi(9);
+        System.out.println(a.getTongTBCTheoKy());
     }
     
 }

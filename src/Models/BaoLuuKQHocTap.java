@@ -15,8 +15,8 @@ public class BaoLuuKQHocTap extends SinhVien{
     public BaoLuuKQHocTap() {
     }
 
-    public BaoLuuKQHocTap(String LyDo, String MaSV, String TenSV, String NgaySinh, String GioiTinh, String DiaChi) {
-        super(MaSV, TenSV, NgaySinh, GioiTinh, DiaChi);
+    public BaoLuuKQHocTap(String LyDo, String MaSV, String TenSV, String NgaySinh, String GioiTinh, String DiaChi,String LopCoDinh) {
+        super(MaSV, TenSV, NgaySinh, GioiTinh, DiaChi,LopCoDinh);
         this.LyDo = LyDo;
     }
 
