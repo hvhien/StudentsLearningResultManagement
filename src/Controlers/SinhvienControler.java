@@ -14,7 +14,10 @@ import Models.MonHoc;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 /**
  *
  * @author hienhv
@@ -25,7 +28,6 @@ public class SinhvienControler extends DBConnect {
     static ResultSet res = null;
     static ResultSet res2 = null;
     public static ArrayList KetQuaSinhVien(String sql) throws SQLException{
-//        String url="select MaMonHoc,(select TenMonHoc from MONHOC where MaMonHoc=DIEM.MaMonHoc) as 'Ten mon hoc',(select SoTinChi from MONHOC where MaMonHoc=DIEM.MaMonHoc) as 'so tin chi',DiemHS1,DiemHS2,DiemThi,SoBuoiVang from DIEM where MaSV='"+login.Username+"'";
         ArrayList<Diem> list=new ArrayList<Diem>();
         
         
@@ -41,9 +43,10 @@ public class SinhvienControler extends DBConnect {
         
         return list;
     }
-    public static ArrayList KetQuaTheoKy(String sql) throws SQLException{
+    public static List<Map<Integer,Float>> KetQuaTheoKy() throws SQLException{
         
-        ArrayList farther=new ArrayList();
+        List<Map<Integer,Float>> farther=new ArrayList();
+        List tongtinchi=new ArrayList();
         String sql_1="select DISTINCT   HocKy  from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='2018604963'";
         Statement sta=conn.getStatement();
         res=conn.getResultSet(sql_1);
@@ -52,16 +55,25 @@ public class SinhvienControler extends DBConnect {
                         + "from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='2018604963' and HocKy="+res.getInt("HocKy");
             res2=conn.getResultSet(sql_2);
             ArrayList<Diem> list=new ArrayList<Diem>();
+            Map<Integer,Float> hm=new HashMap<Integer , Float>();
+            int tongTinChi=0;
+            float a=0;
+            float result=0;
             while(res2.next()){
-                
+                tongTinChi+=res2.getInt("SoTinChi");
                 Diem d=new Diem();
                 d.setDiemHS1(res2.getFloat("DiemHS1"));
                 d.setDiemHS2(res2.getFloat("DiemHS2"));
                 d.setDiemThi(res2.getFloat("DiemThi"));
-                list.add(d);
+                a+=d.getTongTBCTheoKy();
+                result=a/tongTinChi;
+                hm.put(res.getInt("HocKy"), result);
+                
                 
             }
-            farther.add(list);
+            tongtinchi.add(tongTinChi);
+            
+            farther.add(hm);
             
         }
         
@@ -69,6 +81,71 @@ public class SinhvienControler extends DBConnect {
         
 
     }
+    public static List getTongTinChiTheoKy(String MaSV) throws SQLException{
+        
+        
+        List tongtinchi=new ArrayList();
+        String sql_1="select DISTINCT   HocKy  from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='"+MaSV+"'";
+        Statement sta=conn.getStatement();
+        res=conn.getResultSet(sql_1);
+        while(res.next()){
+            String sql_2="select DIEM.MaMonHoc,TenMonHoc,SoTinChi,HocKy,DiemHS1,DiemHS2,DiemThi,SoBuoiVang  "
+                        + "from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='"+MaSV+"'"+" and HocKy="+res.getInt("HocKy");
+            res2=conn.getResultSet(sql_2);
+           
+            int tongTinChi=0;
+            
+            while(res2.next()){
+                tongTinChi+=res2.getInt("SoTinChi");
+                
+                
+                
+            }
+            tongtinchi.add(tongTinChi);
+            
+            
+            
+        }
+        
+        return tongtinchi;
+        
+
+    }
+    public static Object[] getTichLuy(String MaSV) throws SQLException{
+        ArrayList<Diem> list=new ArrayList<Diem>();
+        Object[] KetQua = new Object[2];
+        Statement sta=conn.getStatement();
+
+        String sql_2="select DIEM.MaMonHoc,TenMonHoc,SoTinChi,HocKy,DiemHS1,DiemHS2,DiemThi,SoBuoiVang  "
+                    + "from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='"+MaSV+"'";
+        res2=conn.getResultSet(sql_2);
+
+        int tongTinChi=0;
+        float a=0;
+        float result=0;
+        int tinchi=0;
+        while(res2.next()){
+            tinchi=res2.getInt("SoTinChi");
+            tongTinChi+=res2.getInt("SoTinChi");
+            Diem d=new Diem();
+            d.setDiemHS1(res2.getFloat("DiemHS1"));
+            d.setDiemHS2(res2.getFloat("DiemHS2"));
+            d.setDiemThi(res2.getFloat("DiemThi"));
+            a+=(d.getTongTBCTheoKy()*tinchi);
+
+
+
+        }
+        result=a/tongTinChi;
+        KetQua[0]=tongTinChi;
+        KetQua[1]=result;
+
+
+
+    return KetQua;
+    }
+    
+    
     public static SinhVien getInforSinhVien(String sql) throws SQLException{
         SinhVien sv=new SinhVien();
         Statement sta=conn.getStatement();
@@ -82,21 +159,10 @@ public class SinhvienControler extends DBConnect {
         }
         return sv;
     }
-    public static void main(String[] args) throws SQLException {
-        ArrayList listMom=KetQuaTheoKy("");
-        Iterator it=listMom.iterator();
-        int i=0;
-        while(it.hasNext()){
-            System.out.println("đây là hoc ki thu"+i++);
-            ArrayList<Diem> list=(ArrayList<Diem>) it.next();
-            Iterator<Diem>it2=list.iterator();
-            while(it2.hasNext()){
-                Diem next=it2.next();
-                System.out.println(next.getTongTBCTheoKy());
-                
-            }
-        }
-        
-    }
     
+    public static void updateTinhTrangSinhVien(String sql) throws SQLException{
+        Statement sta=conn.getStatement();
+        conn.updateQuery(sql);
+    }
+   
 }

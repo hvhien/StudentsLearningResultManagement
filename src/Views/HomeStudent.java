@@ -5,19 +5,21 @@
  */
 package Views;
 
-import Trash.*;
 import Controlers.SinhvienControler;
 import CustomTable.CustomTableSinhVienXemDiem2;
 import CustomTable.CustomeTableSinhVien;
 import Models.SinhVien;
-import Trash.StudentInterface;
 import Views.login;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,6 +29,9 @@ public class HomeStudent extends javax.swing.JFrame {
     
     String sql_table1="select DIEM.MaMonHoc,TenMonHoc,SoTinChi,HocKy,DiemHS1,DiemHS2,DiemThi,SoBuoiVang from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc "
                 + "where  MaSV='"+login.Username+"'";
+//    String sql_table_2_1="select DISTINCT   HocKy  from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='"+login.Username+"'";
+//    String sql_query2_2="select DIEM.MaMonHoc,TenMonHoc,SoTinChi,HocKy,DiemHS1,DiemHS2,DiemThi,SoBuoiVang  "
+//                        + "from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='2018604963' and HocKy=";
     String sql_infor_sinhVien="select * from SINHVIEN where MaSV='"+login.Username+"'";
     String sql_TBC_theoKy="select DISTINCT   HocKy  from DIEM inner join MONHOC on DIEM.MaMonHoc=MONHOC.MaMonHoc where  MaSV='"+login.Username+"'";
     /**
@@ -63,22 +68,29 @@ public class HomeStudent extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         logout = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        xemMonHocbnt = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
         homepage = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         masv = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        masv1 = new javax.swing.JTextField();
+        tensv = new javax.swing.JTextField();
         classfixed = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         moretable = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        TongSoTinChitxt = new javax.swing.JLabel();
+        TBCTichLuytxt = new javax.swing.JLabel();
+        XepLoaitxt = new javax.swing.JLabel();
+        xemMonHocj = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
         profilepage = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -195,6 +207,36 @@ public class HomeStudent extends javax.swing.JFrame {
             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        xemMonHocbnt.setBackground(java.awt.Color.cyan);
+        xemMonHocbnt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        xemMonHocbnt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                xemMonHocbntMouseClicked(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_books_96px.png"))); // NOI18N
+        jLabel18.setText("Xem môn học");
+        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel18MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout xemMonHocbntLayout = new javax.swing.GroupLayout(xemMonHocbnt);
+        xemMonHocbnt.setLayout(xemMonHocbntLayout);
+        xemMonHocbntLayout.setHorizontalGroup(
+            xemMonHocbntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(xemMonHocbntLayout.createSequentialGroup()
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        xemMonHocbntLayout.setVerticalGroup(
+            xemMonHocbntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout divLayout = new javax.swing.GroupLayout(div);
         div.setLayout(divLayout);
         divLayout.setHorizontalGroup(
@@ -203,6 +245,7 @@ public class HomeStudent extends javax.swing.JFrame {
             .addComponent(profile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(xemMonHocbnt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         divLayout.setVerticalGroup(
             divLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,10 +254,12 @@ public class HomeStudent extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(homebnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(xemMonHocbnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(profile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(466, Short.MAX_VALUE))
+                .addContainerGap(442, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -229,7 +274,7 @@ public class HomeStudent extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(div, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 290, Short.MAX_VALUE))
+                .addGap(0, 88, Short.MAX_VALUE))
         );
 
         homepage.setBackground(java.awt.Color.darkGray);
@@ -271,24 +316,64 @@ public class HomeStudent extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "Học Kỳ", "Tổng tín chỉ", "TBC học kỳ", "Xét học bổng"
             }
         ));
         jScrollPane1.setViewportView(moretable);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Số tín chỉ tích lũy", "ĐTB chung tích lũy", "Xếp loại" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(jList1);
+        jPanel4.setBorder(new javax.swing.border.MatteBorder(null));
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane8.setViewportView(jList2);
+        jLabel14.setText("Số tín chỉ tích lũy");
+
+        jLabel16.setText("Xếp loại");
+
+        jLabel17.setText("ĐTB chung tích lũy");
+
+        TongSoTinChitxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        TongSoTinChitxt.setText("jLabel18");
+
+        TBCTichLuytxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        TBCTichLuytxt.setText("jLabel18");
+
+        XepLoaitxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        XepLoaitxt.setText("jLabel18");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel16))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(XepLoaitxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TongSoTinChitxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TBCTichLuytxt, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TongSoTinChitxt))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(TBCTichLuytxt, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(XepLoaitxt, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout homepageLayout = new javax.swing.GroupLayout(homepage);
         homepage.setLayout(homepageLayout);
@@ -299,28 +384,23 @@ public class HomeStudent extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(homepageLayout.createSequentialGroup()
-                        .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2)
-                            .addGroup(homepageLayout.createSequentialGroup()
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(masv, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(95, 95, 95)
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(masv1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(classfixed, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(80, 80, 80))
-                    .addGroup(homepageLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(177, 177, 177))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homepageLayout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(masv, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tensv, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(classfixed, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(80, 80, 80))
         );
         homepageLayout.setVerticalGroup(
             homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,17 +411,40 @@ public class HomeStudent extends javax.swing.JFrame {
                     .addComponent(jLabel11)
                     .addComponent(masv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(masv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tensv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
                     .addComponent(classfixed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(479, Short.MAX_VALUE))
+                .addGroup(homepageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
+        );
+
+        xemMonHocj.setBackground(java.awt.Color.darkGray);
+        xemMonHocj.setForeground(new java.awt.Color(0, 153, 153));
+        xemMonHocj.setAutoscrolls(true);
+
+        jLabel19.setBackground(java.awt.Color.darkGray);
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Hà ngô");
+        jLabel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout xemMonHocjLayout = new javax.swing.GroupLayout(xemMonHocj);
+        xemMonHocj.setLayout(xemMonHocjLayout);
+        xemMonHocjLayout.setHorizontalGroup(
+            xemMonHocjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
+        );
+        xemMonHocjLayout.setVerticalGroup(
+            xemMonHocjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(xemMonHocjLayout.createSequentialGroup()
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1069, Short.MAX_VALUE))
         );
 
         profilepage.setBackground(java.awt.Color.darkGray);
@@ -449,7 +552,7 @@ public class HomeStudent extends javax.swing.JFrame {
                     .addComponent(classfixedtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(116, 116, 116)
                 .addComponent(jButton1)
-                .addContainerGap(492, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout profilepageLayout = new javax.swing.GroupLayout(profilepage);
@@ -486,16 +589,24 @@ public class HomeStudent extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                     .addGap(0, 302, Short.MAX_VALUE)
                     .addComponent(homepage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 301, Short.MAX_VALUE)
+                    .addComponent(xemMonHocj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(profilepage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1130, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(profilepage, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 254, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1130, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addComponent(homepage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 255, Short.MAX_VALUE)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(xemMonHocj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -506,13 +617,60 @@ public class HomeStudent extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 878, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+private void load_table(String sql_table_1,String sql_table_2_1,String sql_query2_2) throws SQLException{
+        // cho bảng chi tiêt thông tin bảng điểm
+        ArrayList list=SinhvienControler.KetQuaSinhVien(sql_table_1);
+        //cho bang thông tin điểm theo kì
+        List listTable2=SinhvienControler.KetQuaTheoKy();
+        List List_tongTinChiTheoKy=SinhvienControler.getTongTinChiTheoKy(login.Username);
+        //CHo bảng thông tin điểm tích lũy hiện tại
+       Object[] TongTatCaTinChi=SinhvienControler.getTichLuy(login.Username);
+       SinhVien sv=SinhvienControler.getInforSinhVien(sql_infor_sinhVien);
+       masv.setText(login.Username);
+       tensv.setText(sv.getTenSV());
+       classfixed.setText(sv.getLopCoDinh());
+       
+        mainTable.setModel(new CustomeTableSinhVien(list));
+        
+        moretable.setModel(new CustomTableSinhVienXemDiem2(listTable2).fillTable(moretable,List_tongTinChiTheoKy));
+        TongSoTinChitxt.setText(String.valueOf(TongTatCaTinChi[0]));
+        TBCTichLuytxt.setText(String.valueOf(TongTatCaTinChi[1]));
+        float Ketqua=(float) TongTatCaTinChi[1];
+        if(Ketqua>=4.0&Ketqua<5.4){
+            XepLoaitxt.setText("Trung bình yếu");
+            XepLoaitxt.setForeground(Color.orange);
+            XepLoaitxt.setBackground(Color.gray);
+        }if(Ketqua>=5.5&Ketqua<6.9){
+            XepLoaitxt.setText("Trung bình");
+            XepLoaitxt.setForeground(Color.orange);
+            XepLoaitxt.setBackground(Color.gray);
+        }if(Ketqua>=7.0&Ketqua<8.4){
+            XepLoaitxt.setText("Khá");
+            XepLoaitxt.setForeground(Color.green);
+        }if(Ketqua>=8.5){
+            XepLoaitxt.setText("Giỏi");
+            XepLoaitxt.setForeground(Color.green);
+        }if(Ketqua<4.0){
+            XepLoaitxt.setText("Kém");
+            XepLoaitxt.setForeground(Color.red);
+        }
+    }
+    
+    public void load_profile(String sql) throws SQLException{
+        SinhVien sv=SinhvienControler.getInforSinhVien(sql);
+        nametxt.setText(sv.getTenSV());
+        addresstxt.setText(sv.getDiaChi());
+        genertxt.setText(sv.getGioiTinh());
+        datetxt.setText(sv.getNgaySinh());
+        classfixedtxt.setText(sv.getLopCoDinh());
+    }
+   
     private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
         // TODO add your handling code here:
         int result = JOptionPane.showConfirmDialog(null,"Are you sure to exit?","Confirm",JOptionPane.YES_NO_OPTION );
@@ -525,7 +683,6 @@ public class HomeStudent extends javax.swing.JFrame {
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         try {
-            // TODO add your handling code here:
             new HomeStudent().setVisible(true);
             this.dispose();
         } catch (SQLException ex) {
@@ -534,7 +691,6 @@ public class HomeStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-        // TODO add your handling code here:
         homepage.setVisible(false);
 
         profilepage.setVisible(true);
@@ -550,7 +706,6 @@ public class HomeStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_profileMouseClicked
 
     private void homebntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homebntMouseClicked
-        // TODO add your handling code here:
         homepage.setVisible(true);
 
         profilepage.setVisible(false);
@@ -561,10 +716,9 @@ public class HomeStudent extends javax.swing.JFrame {
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         try {
-            // TODO add your handling code here:
             load_table(sql_table1, "", "");
         } catch (SQLException ex) {
-            Logger.getLogger(StudentInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HomeStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
         homepage.setVisible(true);
 
@@ -576,28 +730,30 @@ public class HomeStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
-    private void load_table(String sql_table_1,String sql_table_2,String sql_query3) throws SQLException{
-        ArrayList list=SinhvienControler.KetQuaSinhVien(sql_table_1);
-        ArrayList listTable2=SinhvienControler.KetQuaTheoKy(sql_table_1);
+
+    private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
+        // TODO add your handling code here:
+        xemMonHocbntMouseClicked(evt);
+    }//GEN-LAST:event_jLabel18MouseClicked
+
+    private void xemMonHocbntMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xemMonHocbntMouseClicked
+        // TODO add your handling code here:
+        xemMonHocj.setVisible(true);
         
-        mainTable.setModel(new CustomeTableSinhVien(list));
-        moretable.setModel(new CustomTableSinhVienXemDiem2(listTable2));
-    }
+        homepage.setVisible(false);
+
+        profilepage.setVisible(false);
+        homebnt.setBackground(Color.cyan);
+
+        profile.setBackground(Color.cyan);
+        jLabel3.setBackground(Color.cyan);
+        
+        xemMonHocbnt.setBackground(Color.darkGray);
+    }//GEN-LAST:event_xemMonHocbntMouseClicked
     
-    public void load_profile(String sql) throws SQLException{
-        SinhVien sv=SinhvienControler.getInforSinhVien(sql);
-        nametxt.setText(sv.getTenSV());
-        addresstxt.setText(sv.getDiaChi());
-        genertxt.setText(sv.getGioiTinh());
-        datetxt.setText(sv.getNgaySinh());
-        classfixedtxt.setText(sv.getLopCoDinh());
-    }
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -636,6 +792,9 @@ public class HomeStudent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel TBCTichLuytxt;
+    private javax.swing.JLabel TongSoTinChitxt;
+    private javax.swing.JLabel XepLoaitxt;
     private javax.swing.JLabel addresstxt;
     private javax.swing.JTextField classfixed;
     private javax.swing.JLabel classfixedtxt;
@@ -650,7 +809,12 @@ public class HomeStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -659,22 +823,21 @@ public class HomeStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JPanel logout;
     private javax.swing.JTable mainTable;
     private javax.swing.JTextField masv;
-    private javax.swing.JTextField masv1;
     private javax.swing.JTable moretable;
     private javax.swing.JLabel nametxt;
     private javax.swing.JPanel profile;
     private javax.swing.JPanel profilepage;
+    private javax.swing.JTextField tensv;
+    private javax.swing.JPanel xemMonHocbnt;
+    private javax.swing.JPanel xemMonHocj;
     // End of variables declaration//GEN-END:variables
 }

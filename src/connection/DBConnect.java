@@ -5,6 +5,7 @@
  */
 package connection;
 
+import Views.url;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,41 +20,28 @@ import javax.swing.JOptionPane;
  * @author hienhv
  */
 public class DBConnect {
-
+    String url_View=url.urlText;
     
     
     Statement sta=null;
      Connection conn=null;
     ResultSet res=null;
-    String url="jdbc:sqlserver://localhost;databaseName=QL_diem_SV;user=sa;password=123";
-//    public static Connection GetConnection() throws SQLException{
-//        
-//        if(conn!=null){
-//            return conn;
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(null, "Connection fail","ERROR",JOptionPane.ERROR_MESSAGE);
-//            
-//        }
-//        return conn;
-//    }
+    String urltxt="jdbc:sqlserver://localhost;databaseName=QL_diem_SV;user=sa;password=123";
+
     public DBConnect() {
         try {
-            conn=DriverManager.getConnection(url);
+            if(!url_View.isEmpty()){
+                conn=DriverManager.getConnection(url_View);
+            }else{
+                conn=DriverManager.getConnection(urltxt);
+            }
+            
         } catch (SQLException ex) {
 //            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("sai trong connection cóntructor");
+            JOptionPane.showMessageDialog(null, "Sai thông tin url sql","ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }
-//    public Connection getConnection(){
-//        try {
-//            conn=DriverManager.getConnection(url);
-//        } catch (SQLException ex) {
-////            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
-//            System.out.println("sai trong connection cóntructor");
-//        }
-//        return conn;
-//    }
+
     public Statement getStatement() throws SQLException{
         this.sta=this.conn.createStatement();
         return this.sta;
@@ -74,6 +62,10 @@ public class DBConnect {
         
         
         return kq;
+    }
+    public void updateQuery(String sql) throws SQLException{
+        Statement sta=conn.createStatement();
+        sta.executeUpdate(sql);
     }
     
     

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="LearningResultManagement.jnlp">
+  <information>
+    <title>LearningResultManagement</title>
+    <vendor>hienhv</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="LearningResultManagement.jar" size="142839" download="eager" />
+    <jar href="lib\mssql-jdbc-9.2.1.jre15.jar" size="1352089" download="eager" />
+    <jar href="lib\sqljdbc42.jar" size="898868" download="eager" />
+  </resources>
+  <application-desc main-class="Views.url"  name="LearningResultManagement" >
+  </application-desc>
+  <update check="background"/>
+</jnlp>

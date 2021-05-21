@@ -83,12 +83,6 @@ public class Diem{
     public void setDiemThi(float DiemThi) {
         this.DiemThi = DiemThi;
     }
-    public static void main(String[] args) {
-        Diem a=new Diem();
-        a.setDiemHS1(9);
-        a.setDiemHS2(10);
-        a.setDiemThi(9);
-        System.out.println(a.getTongTBCTheoKy());
-    }
+    
     
 }

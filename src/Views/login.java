@@ -69,6 +69,11 @@ public class login extends javax.swing.JFrame {
         username.setText("2018604963");
 
         password.setText("havanhien");
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordKeyPressed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(0, 204, 204));
         jButton1.setText("Login");
@@ -207,56 +212,51 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-        // TODO add your handling code here:
-//        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-//        if(username.getText()==""){
-//            JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên đăng nhập","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }if(String.valueOf(password.getPassword())==""){
-//            JOptionPane.showMessageDialog(null, "Bạn chưa nhập password","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
-//        String user=username.getText();
-//        String pass=String.valueOf(password.getPassword());
-////        String url="jdbc:sqlserver://localhost;databaseName=btlJava;user=sa;password=sa";
-//        
-//        
-//        
-//        try {
-//            DBConnect conn=new DBConnect();
-//            Statement stmt=conn.getStatement();
-//            ResultSet rs=stmt.executeQuery("select Roles_number from TAIKHOAN where password='"+pass+"' and username='"+user+"'");
-//            while(rs.next()){
-//                Username=user;
-//                if(rs.getString("Roles_number").equals("1")){
-//                    new HomeStudent().setVisible(true);
-//                    this.dispose();
-//                }if(rs.getString("Roles_number").equals("2")){
-//                    new HomeGiangVien().setVisible(true);
-//                    this.dispose();
-//                }
-//            }
-//            if((pass.equals("admin"))& (user.equals("admin"))){
-//                    new HomeAdmin().setVisible(true);
-//                    this.dispose();
-////                    this.dispose();
-//            }if(!rs.next()){
-//                
-//                JOptionPane.showMessageDialog(null, "Bạn đã nhập sai thông tin đăng nhập","Sai thông tin đăng nhập",JOptionPane.ERROR_MESSAGE);
-//                username.setText("");
-//                password.setText("");
-//            
-//            }
-//            
-//        } catch (SQLException ex) {
-//            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        
-//        }
-
+ 
         
     }//GEN-LAST:event_jButton1KeyPressed
+
+    private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            if(username.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên đăng nhập","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
+                return;
+            }if(String.valueOf(password.getPassword()).equals("")){
+                JOptionPane.showMessageDialog(null, "Bạn chưa nhập password","Thiếu thông tin",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String user=username.getText();
+            String pass=String.valueOf(password.getPassword());
+
+            try {
+                listTK=lg.showTaiKhoan();
+                TaiKhoan tk=new TaiKhoan(user,pass);
+                if(user.equals("admin")&pass.equals("admin")){
+                    new HomeAdmin().setVisible(true);
+                    this.dispose();
+                    return;
+                }
+                if(!listTK.contains(tk)){
+                    JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra tên hoặc mật khẩu","ERROR",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                TaiKhoan quyen=new TaiKhoan();
+                quyen=listTK.get(listTK.indexOf(tk));
+                Username=user;
+                if(quyen.getLoaiTaiKhoan()==1){
+                    new HomeStudent().setVisible(true);
+                    this.dispose();
+                }if(quyen.getLoaiTaiKhoan()==2){
+                    new HomeGiangVien().setVisible(true);
+                    this.dispose();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        }
+    }//GEN-LAST:event_passwordKeyPressed
 
     /**
      * @param args the command line arguments
